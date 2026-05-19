@@ -18,7 +18,10 @@
   --white: #fff;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
 
 * { scroll-margin-top: 90px; }
 
@@ -27,16 +30,21 @@ html { scroll-behavior: smooth; }
    =========================== */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(16px);
+  will-change: transform, opacity;
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal:nth-child(2) { transition-delay: 0.08s; }
-.reveal:nth-child(3) { transition-delay: 0.16s; }
-.reveal:nth-child(4) { transition-delay: 0.24s; }
-.reveal:nth-child(5) { transition-delay: 0.32s; }
-.reveal:nth-child(6) { transition-delay: 0.40s; }
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+.reveal:nth-child(2) { transition-delay: 0.07s; }
+.reveal:nth-child(3) { transition-delay: 0.14s; }
+.reveal:nth-child(4) { transition-delay: 0.21s; }
+.reveal:nth-child(5) { transition-delay: 0.28s; }
+.reveal:nth-child(6) { transition-delay: 0.35s; }
 
 body {
   font-family: 'Lato', sans-serif;
@@ -44,6 +52,7 @@ body {
   color: #333;
   background: #fff;
   line-height: 1.7;
+  overflow-x: hidden;
 }
 
 img { max-width: 100%; display: block; }
@@ -212,11 +221,10 @@ nav a.active {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  /* dark on left for readability, fades right to show the shop image */
   background: linear-gradient(105deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%);
   display: flex;
-  align-items: flex-start;
-  padding: 44px 64px;
+  align-items: center;
+  padding: clamp(28px, 5vw, 64px) clamp(24px, 6vw, 80px);
 }
 
 .hero-text {
@@ -301,7 +309,7 @@ nav a.active {
 /* ===========================
    SECTIONS — SHARED
    =========================== */
-section { padding: 80px 40px; }
+section { padding: clamp(52px, 8vh, 96px) clamp(20px, 4vw, 80px); }
 
 .section-inner { max-width: 880px; margin: 0 auto; }
 .section-inner-wide { max-width: 1120px; margin: 0 auto; }
@@ -361,13 +369,13 @@ section { padding: 80px 40px; }
   margin: 0 auto;
 }
 
-.about-content p { margin-bottom: 18px; }
+.about-content p { margin-bottom: 12px; font-size: 15px; }
 
 .about-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .badge {
@@ -478,10 +486,9 @@ section { padding: 80px 40px; }
 .guarantees-section .section-label { color: #e06a6c; }
 
 .guarantees-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
   max-width: 1080px;
   margin: 0 auto;
 }
@@ -490,29 +497,29 @@ section { padding: 80px 40px; }
   background: var(--dark2);
   border: 1px solid #333;
   border-top: 3px solid var(--red);
-  padding: 28px 22px;
+  padding: 24px 20px;
   text-align: center;
-  flex: 0 0 280px;
 }
 
 .guarantee-card svg {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   fill: var(--red);
-  margin: 0 auto 14px;
+  margin: 0 auto 10px;
 }
 
 .guarantee-card h4 {
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .guarantee-card p {
   color: #999;
   font-size: 13px;
+  line-height: 1.5;
 }
 
 /* ===========================
@@ -558,7 +565,7 @@ blockquote::before {
 .cta-section {
   background: var(--red);
   text-align: center;
-  padding: 60px 40px;
+  padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 80px);
 }
 
 .cta-section h2 {
@@ -1140,38 +1147,61 @@ footer {
 /* ===========================
    RESPONSIVE
    =========================== */
-@media (max-width: 900px) {
-  .about-grid { grid-template-columns: 1fr; }
-  .about-image-wrap { display: none; }
-  .footer-inner { grid-template-columns: 1fr 1fr; }
+
+/* --- Tablet landscape (1024px) --- */
+@media (max-width: 1024px) {
+  .about-grid { gap: 40px; }
+  .about-image-wrap img { height: 360px; }
+  .guarantees-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .services-home-grid .service-tile { flex: 0 0 160px; }
+  .footer-inner { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
 }
 
+/* --- Tablet portrait (900px) --- */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .about-image-wrap { display: none; }
+  .guarantees-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* --- Mobile (768px) --- */
 @media (max-width: 768px) {
   header { padding: 0 20px; }
   nav { display: none; }
   .nav-phone { display: none; }
   .hamburger { display: flex; }
-  section { padding: 60px 24px; }
-  .page-hero { padding: 44px 24px; }
-  .hero { min-height: 420px; } /* JS sets exact height */
-  .hero-overlay { padding: 28px 24px; }
-  .hero-text { padding: 0; max-width: 100%; }
-  .hero-text h1 { font-size: clamp(40px, 11vw, 64px); line-height: 1.0; }
+
+  .hero { min-height: 420px; }
+  .hero-overlay { padding: clamp(20px, 5vw, 32px) clamp(20px, 5vw, 32px); }
+  .hero-text { max-width: 100%; }
+  .hero-text h1 { font-size: clamp(36px, 11vw, 56px); line-height: 1.0; }
   .hero-text p { font-size: 14px; max-width: 100%; }
   .hero-btns { flex-direction: column; gap: 10px; }
   .hero-btns .btn { text-align: center; width: 100%; max-width: 320px; }
+
+  .page-hero { padding: 40px 20px; }
+
+  .guarantees-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .guarantee-card { padding: 20px 16px; }
+
   .service-item { grid-template-columns: 1fr; gap: 24px; }
   .service-item-image { aspect-ratio: 16/9; }
   .contact-grid { grid-template-columns: 1fr; gap: 12px; }
   .form-row { grid-template-columns: 1fr; }
-  footer { padding: 44px 24px 28px; }
-  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+
+  footer { padding: 40px 20px 24px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 24px; }
   .footer-bottom { flex-direction: column; text-align: center; }
-  .coupons-grid { grid-template-columns: 1fr; }
 }
 
+/* --- Small mobile (480px) --- */
 @media (max-width: 480px) {
   .site-logo img { height: 38px; }
   .hero-btns { flex-direction: column; }
   .btn { text-align: center; }
+  .guarantees-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .services-home-grid .service-tile { flex: 0 0 140px; }
 }

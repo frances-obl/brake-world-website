@@ -75,7 +75,7 @@ if (track) {
   goTo(0);
 }
 
-// Scroll reveal
+// Scroll reveal — fires as soon as 6% of element enters viewport
 const revealObserver = new IntersectionObserver(
   entries => entries.forEach(e => {
     if (e.isIntersecting) {
@@ -83,7 +83,7 @@ const revealObserver = new IntersectionObserver(
       revealObserver.unobserve(e.target);
     }
   }),
-  { threshold: 0.12 }
+  { threshold: 0.06, rootMargin: '0px 0px -40px 0px' }
 );
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
