@@ -53,6 +53,9 @@ body {
   background: #fff;
   line-height: 1.7;
   overflow-x: hidden;
+  overscroll-behavior-x: none; /* prevent horizontal rubber-band jank */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeSpeed;
 }
 
 img { max-width: 100%; display: block; }
@@ -216,6 +219,9 @@ nav a.active {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: translateZ(0);      /* promote to own GPU layer */
+  backface-visibility: hidden;   /* prevent sub-pixel shimmer */
+  will-change: transform;
 }
 
 .hero-overlay {
@@ -452,10 +458,29 @@ section { padding: clamp(52px, 8vh, 96px) clamp(20px, 4vw, 80px); }
   background: #fff;
   padding: 28px 20px;
   text-align: center;
-  transition: background 0.2s;
+  position: relative;
+  isolation: isolate;
+  cursor: default;
 }
 
-.service-tile:hover { background: var(--red); }
+/* GPU-composited hover: opacity transition instead of background-color paint */
+.service-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--red);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 0;
+}
+
+.service-tile:hover::before { opacity: 1; }
+
+.service-tile > * { position: relative; z-index: 1; }
+
+.service-tile-icon { transition: fill 0.2s ease; }
+.service-tile-name { transition: color 0.2s ease; }
+
 .service-tile:hover .service-tile-icon { fill: #fff; }
 .service-tile:hover .service-tile-name { color: #fff; }
 
@@ -845,6 +870,8 @@ blockquote::before {
 .carousel-track {
   display: flex;
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .carousel-slide {

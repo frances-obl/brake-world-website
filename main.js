@@ -15,20 +15,30 @@ if (mobileMenu) {
   });
 }
 
-// Hero: measure actual header heights and fill exact remaining viewport
+// Hero: batch DOM reads first, then write — prevents layout thrashing
 function fitHero() {
   const hero = document.querySelector('.hero');
   if (!hero) return;
   const topBar = document.querySelector('.top-bar');
-  const hdr   = document.querySelector('header');
-  const used  = (topBar ? topBar.getBoundingClientRect().height : 0)
-              + (hdr    ? hdr.getBoundingClientRect().height    : 0);
-  hero.style.height = (window.innerHeight - used) + 'px';
+  const hdr = document.querySelector('header');
+  // Read phase (all reads together — no interleaving with writes)
+  const topH = topBar ? topBar.getBoundingClientRect().height : 0;
+  const hdrH = hdr ? hdr.getBoundingClientRect().height : 0;
+  const vh = window.innerHeight;
+  // Write phase (single write after all reads)
+  hero.style.height = (vh - topH - hdrH) + 'px';
 }
-fitHero();
-window.addEventListener('resize', fitHero);
 
-// Carousel
+fitHero();
+
+// RAF-debounced resize: never fires more than once per frame
+let resizeRaf;
+window.addEventListener('resize', () => {
+  cancelAnimationFrame(resizeRaf);
+  resizeRaf = requestAnimationFrame(fitHero);
+}, { passive: true });
+
+// Carousel — passive touch listeners + will-change on track
 const track = document.querySelector('.carousel-track');
 if (track) {
   const slides = track.querySelectorAll('.carousel-slide');
@@ -48,13 +58,12 @@ if (track) {
 
   function goTo(index) {
     current = (index + slides.length) % slides.length;
+    // GPU-only: only transform, no layout reads
     track.style.transform = `translateX(-${current * 100}%)`;
     dotsContainer.querySelectorAll('button').forEach((d, i) => {
       d.classList.toggle('active', i === current);
     });
-    if (captionEl) {
-      captionEl.textContent = `Photo ${current + 1} of ${slides.length}`;
-    }
+    if (captionEl) captionEl.textContent = `Photo ${current + 1} of ${slides.length}`;
   }
 
   if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
@@ -66,16 +75,17 @@ if (track) {
   });
 
   let startX = 0;
-  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  // Passive touch listeners — browser can scroll without waiting for JS
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
   track.addEventListener('touchend', e => {
     const diff = startX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
-  });
+  }, { passive: true });
 
   goTo(0);
 }
 
-// Scroll reveal — fires as soon as 6% of element enters viewport
+// Scroll reveal — IntersectionObserver runs off main thread (zero jank)
 const revealObserver = new IntersectionObserver(
   entries => entries.forEach(e => {
     if (e.isIntersecting) {
@@ -98,7 +108,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Set active nav link
+// Active nav link
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 document.querySelectorAll('nav a, .mobile-menu a').forEach(link => {
   const href = link.getAttribute('href');
