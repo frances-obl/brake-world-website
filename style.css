@@ -55,6 +55,15 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+
+  /* ── Cinematic scroll snap ──────────────────────────────────────
+     proximity = magnetic, not rigid. Snaps when within ~50% of
+     a snap point — feels intentional without forcing the user.
+     scroll-padding-top offsets for the sticky header so snapped
+     sections never hide behind it.
+  ─────────────────────────────────────────────────────────────── */
+  scroll-snap-type: y proximity;
+  scroll-padding-top: clamp(58px, 6.5vh, 76px);
 }
 
 * { scroll-margin-top: 88px; }
@@ -279,6 +288,7 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
   overflow: hidden;
   background: var(--dark2);
   padding: 0;
+  scroll-snap-align: start;
 }
 
 .hero-image {
@@ -353,6 +363,7 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
   align-items: center;
   min-height: max(540px, 78vh);
   padding: var(--py) var(--px);
+  scroll-snap-align: start;
 }
 
 .about-grid {
@@ -430,6 +441,11 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
 .services-home {
   background: var(--light-bg);
   padding: var(--py) var(--px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: max(380px, 68vh);
+  scroll-snap-align: start;
 }
 
 .services-home-grid {
@@ -492,6 +508,7 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
   justify-content: center;
   min-height: max(480px, 78vh);
   padding: var(--py) var(--px);
+  scroll-snap-align: start;
 }
 
 .guarantees-section .section-title { color: #fff; }
@@ -538,6 +555,7 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
   justify-content: center;
   min-height: max(260px, 42vh);
   padding: var(--py) var(--px);
+  scroll-snap-align: start;
 }
 .testimonial-section .section-inner { text-align: center; width: 100%; }
 
@@ -580,6 +598,7 @@ blockquote::before {
   justify-content: center;
   min-height: max(230px, 36vh);
   padding: var(--py) var(--px);
+  scroll-snap-align: start;
 }
 .cta-section .section-inner { width: 100%; }
 .cta-section h2 {
@@ -604,6 +623,7 @@ blockquote::before {
   align-items: center;
   justify-content: center;
   min-height: max(180px, 26vh);
+  scroll-snap-align: start;
 }
 .page-hero .section-label { color: #e06a6c; }
 .page-hero h1 {
@@ -618,7 +638,7 @@ blockquote::before {
 /* ===========================
    SERVICES PAGE
    =========================== */
-.services-list { background: var(--white); }
+.services-list { background: var(--white); scroll-snap-align: start; }
 
 .service-item {
   max-width: var(--max-w-narrow);
@@ -697,7 +717,7 @@ blockquote::before {
 /* ===========================
    COUPONS PAGE
    =========================== */
-.coupons-section { background: var(--light-bg); }
+.coupons-section { background: var(--light-bg); scroll-snap-align: start; }
 
 .coupons-intro {
   text-align: center;
@@ -797,7 +817,7 @@ blockquote::before {
 /* ===========================
    GALLERY
    =========================== */
-.gallery-section { background: var(--white); }
+.gallery-section { background: var(--white); scroll-snap-align: start; }
 
 .carousel {
   position: relative;
@@ -853,7 +873,7 @@ blockquote::before {
 /* ===========================
    CONTACT
    =========================== */
-.contact-section { background: var(--white); }
+.contact-section { background: var(--white); scroll-snap-align: start; }
 
 .contact-grid {
   display: grid;
@@ -906,7 +926,7 @@ blockquote::before {
   width: 88px;
 }
 
-.contact-form-section { background: var(--light-bg); }
+.contact-form-section { background: var(--light-bg); scroll-snap-align: start; }
 .contact-form { max-width: 640px; margin: 0 auto; }
 
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(14px, 2vw, 22px); }
