@@ -335,7 +335,7 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
 }
 
 .hero-text h1 {
-  font-size: var(--t-hero);
+  font-size: calc(var(--t-hero) * 0.5);
   letter-spacing: 0.02em;
   text-transform: uppercase;
   margin-bottom: var(--sp-3);
