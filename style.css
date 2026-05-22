@@ -203,13 +203,17 @@ nav a {
 }
 nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
 
-.nav-phone {
-  color: var(--red)  !important;
+.nav-schedule {
+  background: var(--red) !important;
+  color: #fff !important;
   border-bottom: none !important;
-  font-size: var(--t-sm) !important;
-  letter-spacing: 0.06em !important;
+  font-size: var(--t-label) !important;
+  letter-spacing: 0.1em !important;
+  padding: 8px 16px !important;
+  white-space: nowrap;
+  transition: background 0.2s !important;
 }
-.nav-phone:hover { color: #e04a4c !important; }
+.nav-schedule:hover { background: var(--red-dark) !important; color: #fff !important; }
 
 .hamburger {
   display: none;
@@ -242,7 +246,13 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
-.mobile-menu .mobile-phone { color: var(--red); font-size: clamp(20px, 4vw, 28px); }
+.mobile-menu .mobile-schedule {
+  color: #fff;
+  font-size: clamp(18px, 3.5vw, 26px);
+  background: var(--red);
+  padding: 12px 28px;
+  margin-top: 8px;
+}
 .mobile-menu-close {
   position: absolute;
   top: 20px; right: 24px;
