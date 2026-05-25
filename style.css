@@ -1148,3 +1148,174 @@ footer {
   .footer-nav-links { flex-wrap: wrap; justify-content: center; }
   .coupons-grid     { grid-template-columns: 1fr; }
 }
+
+/* ===========================
+   FIND US SECTION (contact page)
+   =========================== */
+.find-us-section {
+  background: var(--white);
+  padding: 0;
+  scroll-snap-align: start;
+  min-height: max(500px, 65vh);
+  display: flex;
+}
+
+.find-us-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+
+.find-us-info {
+  padding: var(--py) var(--px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.find-us-map {
+  position: relative;
+  min-height: 400px;
+  background: #e8e8e8;
+}
+.find-us-map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.info-blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.info-block h3 {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--red);
+  font-weight: 700;
+  margin-bottom: 5px;
+  line-height: 1;
+}
+
+.info-block a {
+  font-size: var(--t-base);
+  color: var(--dark);
+  line-height: 1.65;
+  display: block;
+  transition: color 0.2s;
+}
+.info-block a:hover { color: var(--red); }
+
+.info-note {
+  font-size: var(--t-sm);
+  color: var(--mid);
+  margin-top: 3px;
+  line-height: 1.55;
+}
+
+.info-text {
+  font-size: var(--t-sm);
+  color: var(--mid);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+/* Hours table on light background */
+.hours-table-light {
+  width: 100%;
+  border-collapse: collapse;
+}
+.hours-table-light tr td {
+  padding: 3px 0;
+  font-size: var(--t-sm);
+  color: var(--dark);
+  vertical-align: top;
+  line-height: 1.65;
+}
+.hours-table-light tr td:first-child {
+  font-weight: 700;
+  color: var(--mid);
+  padding-right: 16px;
+  width: 88px;
+}
+
+/* ===========================
+   SCHEDULE SECTION (contact page)
+   =========================== */
+.schedule-section {
+  background: var(--dark);
+  padding: var(--py) var(--px);
+  scroll-snap-align: start;
+  min-height: max(640px, 88vh);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.schedule-inner {
+  max-width: 860px;
+  width: 100%;
+}
+
+.schedule-header {
+  text-align: center;
+  margin-bottom: var(--sp-4);
+}
+
+.schedule-section .section-label {
+  text-align: center;
+  color: #e06a6c;
+  display: block;
+}
+
+.schedule-title {
+  color: #fff !important;
+  text-align: center;
+}
+
+.schedule-intro {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 500px;
+  margin: 0 auto;
+  font-size: var(--t-base);
+  line-height: 1.65;
+}
+
+.calendly-wrap {
+  border: 1px solid #333;
+  border-top: 3px solid var(--red);
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+/* ===========================
+   CONTACT PAGE RESPONSIVE
+   =========================== */
+@media (max-width: 900px) {
+  .find-us-grid { grid-template-columns: 1fr; }
+  .find-us-map  { min-height: 300px; position: relative; }
+  .find-us-map iframe { position: static; height: 300px; width: 100%; }
+}
+
+@media (max-width: 768px) {
+  .info-row { grid-template-columns: 1fr; gap: var(--sp-2); }
+  .schedule-section { min-height: auto; padding: var(--py) var(--px); }
+}
+
+@media (max-width: 480px) {
+  .find-us-map  { min-height: 240px; }
+  .find-us-map iframe { height: 240px; }
+}
