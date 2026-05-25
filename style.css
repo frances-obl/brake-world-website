@@ -207,11 +207,12 @@ nav a:hover, nav a.active { color: #fff; border-bottom-color: var(--red); }
   background: var(--red) !important;
   color: #fff !important;
   border-bottom: none !important;
-  font-size: var(--t-label) !important;
+  font-size: clamp(7px, 0.55vw, 9px) !important;
   letter-spacing: 0.1em !important;
-  padding: 8px 16px !important;
+  padding: 5px 10px !important;
   white-space: nowrap;
   transition: background 0.2s !important;
+  border-radius: 2px;
 }
 .nav-schedule:hover { background: var(--red-dark) !important; color: #fff !important; }
 
@@ -883,7 +884,11 @@ blockquote::before {
 /* ===========================
    CONTACT
    =========================== */
-.contact-section { background: var(--white); scroll-snap-align: start; }
+.contact-section {
+  background: var(--white);
+  scroll-snap-align: start;
+  padding-bottom: 0;
+}
 
 .contact-grid {
   display: grid;
@@ -891,6 +896,18 @@ blockquote::before {
   gap: clamp(12px, 1.5vw, 20px);
   max-width: 960px;
   margin: 0 auto;
+}
+
+.contact-map-embed {
+  margin-top: var(--sp-4);
+  margin-left: calc(-1 * var(--px));
+  margin-right: calc(-1 * var(--px));
+}
+.contact-map-embed iframe {
+  width: 100%;
+  height: clamp(200px, 26vh, 340px);
+  border: none;
+  display: block;
 }
 
 .contact-block {
@@ -970,8 +987,7 @@ blockquote::before {
 .form-group textarea { resize: vertical; min-height: 120px; }
 .form-note { font-size: var(--t-sm); color: #999; margin-top: -10px; margin-bottom: var(--sp-4); }
 
-.map-section { background: var(--white); padding: 0; }
-.map-section iframe { width: 100%; height: clamp(240px, 32vh, 400px); border: none; display: block; }
+/* .map-section removed — map now lives inside .contact-section as .contact-map-embed */
 
 /* ===========================
    CALENDLY SECTION
